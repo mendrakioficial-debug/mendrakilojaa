@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 Mendraki Store 🚀</title>
+    <script src="https://lucide.dev/scripts/lucide.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0b10;
+            --card-bg: #161b22;
+            --accent: #d4af37;
+            --primary: #7289da;
+            --green: #00ff88;
+            --red: #ff4757;
+            --text: #ffffff;
+            --discord: #5865F2;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* --- FOGUETE CLÁSSICO --- */
+        @keyframes rocket-vibe {
+            0%, 100% { transform: translateY(0); filter: drop-shadow(0 0 5px var(--accent)); }
+            50% { transform: translateY(-15px); filter: drop-shadow(0 0 20px var(--accent)); }
+        }
+        .rocket-classic {
+            font-size: 5rem;
+            display: inline-block;
+            animation: rocket-vibe 3s ease-in-out infinite;
+            margin-bottom: 20px;
+        }
+
+        /* --- NAVBAR --- */
+        .nav-bar {
+            background: rgba(22, 27, 34, 0.9);
+            backdrop-filter: blur(10px);
+            position: sticky; top: 0; z-index: 100;
+            border-bottom: 2px solid var(--accent);
+            display: flex; justify-content: center; padding: 15px 0; gap: 10px;
+        }
+        .tab-btn {
+            background: none; border: none; color: #888; font-weight: 700;
+            cursor: pointer; transition: 0.3s; padding: 10px 15px; border-radius: 8px;
+            text-transform: uppercase; font-size: 0.8rem;
+        }
+        .tab-btn.active { color: var(--accent); background: rgba(212, 175, 55, 0.1); }
+        #tab-admin-btn { display: none; border: 1px solid var(--red); color: var(--red); }
+
+        /* --- VITRINE --- */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 30px; padding: 40px 5%; }
+        
+        .product-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            border: 1px solid #30363d;
+            overflow: hidden;
+            transition: 0.4s;
+            position: relative;
+        }
+        .card-img { width: 100%; height: 220px; object-fit: cover; border-bottom: 1px solid #30363d; }
+        .card-body { padding: 25px; text-align: center; }
+
+        .price-container {
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 15px 0;
+            border: 1px solid rgba(0, 255, 136, 0.1);
+        }
+        .current-price { color: var(--green); font-size: 2.2rem; font-weight: 900; }
+
+        /* BOTÕES DE COMPRA */
+        .buy-wrapper { min-height: 60px; position: relative; }
+        .btn-main-buy {
+            width: 100%; padding: 16px; border-radius: 12px; background: var(--accent);
+            color: #000; font-weight: 800; border: none; cursor: pointer; transition: 0.3s;
+        }
+        .options-container { display: none; flex-direction: column; gap: 8px; animation: slideUp 0.3s ease; }
+        
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .btn-opt {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            padding: 12px; border-radius: 8px; text-decoration: none;
+            font-weight: 700; color: white; font-size: 0.9rem;
+        }
+        .opt-wa { background: #25D366; }
+        .opt-ds { background: var(--discord); }
+
+        /* PAINEL DONO */
+        .admin-flex { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; padding: 20px; }
+        .admin-box { background: var(--card-bg); padding: 25px; border-radius: 15px; border: 1px solid var(--accent); }
+        input, textarea { width: 100%; padding: 12px; margin-bottom: 10px; background: #0d1117; border: 1px solid #30363d; color: white; border-radius: 8px; box-sizing: border-box; }
+        
+        /* MODAL */
+        .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-card { background: var(--card-bg); padding: 40px; border-radius: 25px; border: 2px solid var(--accent); text-align: center; width: 300px; }
+        
+        .owner-btn {
+            position: fixed; bottom: 30px; right: 30px;
+            background: var(--accent); color: #000; width: 55px; height: 55px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; z-index: 99;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="nav-bar">
+    <button class="tab-btn active" onclick="changeTab('home', this)">INÍCIO</button>
+    <button class="tab-btn" onclick="changeTab('loja', this)">LOJA</button>
+    <button class="tab-btn" id="tab-admin-btn" onclick="changeTab('adm', this)">ANUNCIAR</button>
+    <button class="tab-btn" onclick="changeTab('suporte', this)">SUPORTE</button>
+</nav>
+
+<section id="home" class="tab-content" style="text-align: center; padding-top: 100px;">
+    <div class="rocket-classic">🚀</div>
+    <h1 style="font-size: 3.5rem; font-weight: 900; margin: 0;">MENDRAKI STORE</h1>
+    <p style="color: var(--accent); font-weight: 600;">QUALIDADE EM PRIMEIRO LUGAR</p>
+</section>
+
+<section id="loja" class="tab-content" style="display:none;">
+    <div class="grid" id="vitrine"></div>
+</section>
+
+<section id="adm" class="tab-content" style="display:none;">
+    <div class="admin-flex">
+        <div class="admin-box">
+            <h3 style="color:var(--accent)">➕ Novo Produto</h3>
+            <input type="text" id="add-nome" placeholder="Nome">
+            <input type="number" id="add-preco" placeholder="Preço">
+            <textarea id="add-desc" rows="3" placeholder="Descrição do Produto"></textarea>
+            <input type="file" id="file-input" accept="image/*" onchange="handleFile()" style="font-size: 0.7rem;">
+            <button class="btn-main-buy" onclick="salvar()" style="margin-top:10px">PUBLICAR</button>
+        </div>
+        <div class="admin-box">
+            <h3 style="color:var(--red)">⚙️ Gerenciar</h3>
+            <div id="lista-adm"></div>
+        </div>
+    </div>
+</section>
+
+<section id="suporte" class="tab-content" style="display:none; text-align: center; padding-top: 80px;">
+    <div style="background: var(--card-bg); padding: 40px; border-radius: 20px; display: inline-block; border: 1px solid #30363d;">
+        <i data-lucide="headphones" size="40" color="var(--accent)"></i>
+        <h2>Precisa de ajuda?</h2>
+        <p>Abra um ticket ou nos chame no WhatsApp.</p>
+        <a href="https://discord.gg/AFCtnXvcvH" target="_blank" class="btn-opt opt-ds" style="margin-top:10px">DISCORD OFICIAL</a>
+    </div>
+</section>
+
+<div class="modal" id="modal-pass">
+    <div class="modal-card">
+        <h3>Acesso Restrito</h3>
+        <input type="password" id="pass-input" placeholder="Senha" style="text-align: center;">
+        <button class="btn-main-buy" onclick="checkPass()">ENTRAR</button>
+        <button onclick="closeMod()" style="background:none; border:none; color:#888; margin-top:10px; cursor:pointer;">Fechar</button>
+    </div>
+</div>
+
+<div class="owner-btn" onclick="openMod()"><i data-lucide="shield-check"></i></div>
+
+<script>
+    let currentImg = "";
+    let data = JSON.parse(localStorage.getItem('mendraki_final_v6')) || [];
+
+    function handleFile() {
+        const file = document.getElementById('file-input').files[0];
+        const reader = new FileReader();
+        reader.onloadend = () => { currentImg = reader.result; };
+        if(file) reader.readAsDataURL(file);
+    }
+
+    function openMod() { document.getElementById('modal-pass').style.display = 'flex'; }
+    function closeMod() { document.getElementById('modal-pass').style.display = 'none'; }
+
+    function checkPass() {
+        if(document.getElementById('pass-input').value === "666777") {
+            document.getElementById('tab-admin-btn').style.display = 'block';
+            closeMod();
+        } else { alert("Senha Errada!"); }
+    }
+
+    function changeTab(id, btn) {
+        document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(id).style.display = 'block';
+        btn.classList.add('active');
+        if(id === 'loja') renderLoja();
+        if(id === 'adm') renderAdm();
+    }
+
+    function toggleOptions(id) {
+        document.getElementById('btn-main-'+id).style.display = 'none';
+        document.getElementById('opts-'+id).style.display = 'flex';
+    }
+
+    function salvar() {
+        const item = { id: Date.now(), nome: document.getElementById('add-nome').value, preco: document.getElementById('add-preco').value, desc: document.getElementById('add-desc').value, img: currentImg };
+        data.push(item);
+        localStorage.setItem('mendraki_final_v6', JSON.stringify(data));
+        renderAdm();
+        alert("Publicado!");
+    }
+
+    function renderLoja() {
+        const vitrine = document.getElementById('vitrine');
+        vitrine.innerHTML = "";
+        data.forEach(p => {
+            vitrine.innerHTML += `
+                <div class="product-card">
+                    <img src="${p.img || ''}" class="card-img">
+                    <div class="card-body">
+                        <h2 style="margin:0;">${p.nome}</h2>
+                        <p style="color:#888; font-size:0.85rem; margin:10px 0;">${p.desc}</p>
+                        <div class="price-container">
+                            <div class="current-price">R$ ${p.preco}</div>
+                        </div>
+                        <div class="buy-wrapper">
+                            <button class="btn-main-buy" id="btn-main-${p.id}" onclick="toggleOptions('${p.id}')">COMPRAR AGORA</button>
+                            <div class="options-container" id="opts-${p.id}">
+                                <a href="https://wa.me/5522998046622?text=Quero comprar: ${p.nome}" target="_blank" class="btn-opt opt-wa">WhatsApp</a>
+                                <a href="https://discord.gg/AFCtnXvcvH" target="_blank" class="btn-opt opt-ds">Discord</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        lucide.createIcons();
+    }
+
+    function renderAdm() {
+        const lista = document.getElementById('lista-adm');
+        lista.innerHTML = "";
+        data.forEach(p => {
+            lista.innerHTML += `<div style="display:flex; justify-content:space-between; padding:10px; border-bottom:1px solid #333;">
+                <span>${p.nome}</span>
+                <button onclick="deletar(${p.id})" style="color:var(--red); background:none; border:none; cursor:pointer;">Excluir</button>
+            </div>`;
+        });
+    }
+
+    function deletar(id) {
+        data = data.filter(x => x.id !== id);
+        localStorage.setItem('mendraki_final_v6', JSON.stringify(data));
+        renderAdm();
+    }
+
+    lucide.createIcons();
+    renderLoja();
+</script>
+</body>
+</html>
